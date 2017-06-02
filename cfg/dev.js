@@ -2,8 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {dfPath, dfConfig } = require('./default.js');
+const OpenBrowser = require('open-browser-webpack-plugin');
 
-let config = Object.assign(dfConfig, {
+
+let config = Object.assign({}, dfConfig, {
 
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -15,7 +17,8 @@ let config = Object.assign(dfConfig, {
             React: 'react',
             ReactDOM: 'react-dom',
             PT: 'prop-types'
-        })
+        }),
+        // new OpenBrowser({url: `http://localhost:${9000}`})
     ],
 
     resolve: {
