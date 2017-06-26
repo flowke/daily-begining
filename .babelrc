@@ -1,3 +1,9 @@
 {
-    "presets": ["env"]
+    "presets": ["react","env"],
+    "plugins": ["transform-object-rest-spread"],
+    "env": {
+        "production": {
+            "presets": [ "react-optimize"]
+        }
+    }
 }

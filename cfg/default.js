@@ -1,6 +1,6 @@
-
+const BabiliPlugin = require("babili-webpack-plugin");
 const path = require('path');
-
+const webpack = require('webpack');
 let dfPath = {
     src: path.resolve(__dirname, '../src'),
     dist: path.resolve(__dirname, '../dist'),
@@ -9,8 +9,14 @@ let dfPath = {
     layout: path.resolve(__dirname, '../src/layout'),
     view: path.resolve(__dirname, '../src/view'),
     root: path.resolve(__dirname, '../'),
-    semantic: path.resolve(__dirname, '../semantic')
+    semantic: path.resolve(__dirname, '../semantic'),
+    reduxes: path.resolve(__dirname, '../src/reduxes'),
+    layouts: path.resolve(__dirname, '../src/layouts')
 }
+
+let env = process.env.NODE_ENV;
+
+env = env ? env : 'development';
 
 let dfConfig = {
     entry: [
@@ -19,7 +25,7 @@ let dfConfig = {
 
     output: {
         path: path.resolve(__dirname, '../dist/assets'),
-        filename: '[name].js',
+        filename: env === 'production' ? '[name]_[hash:8].js' : 'main.js',
         publicPath: '/assets/'
     },
 
@@ -50,7 +56,18 @@ let dfConfig = {
                 use: ['url-loader?limit=10000&mimetype=image/svg+xml']
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            React: 'react',
+            ReactDOM: 'react-dom',
+            Component: ['react', 'Component'],
+            PT: 'prop-types',
+            KV: 'react-konva',
+            push: ['react-router-redux', 'push']
+        }),
+        // new OpenBrowser({url: `http://localhost:${9000}`})
+    ],
 }
 
 module.exports = {

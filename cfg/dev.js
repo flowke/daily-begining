@@ -4,26 +4,29 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {dfPath, dfConfig } = require('./default.js');
 const OpenBrowser = require('open-browser-webpack-plugin');
 
+console.log(process.env.NODE_ENV);
 
 let config = Object.assign({}, dfConfig, {
 
-    plugins: [
+    devServer: {
+        publicPath: '/assets/',
+        hot: true
+    },
+
+    plugins: [ ...dfConfig.plugins,
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             filename: '../index.html',
             template: './src/index.html'
         }),
-        new webpack.ProvidePlugin({
-            React: 'react',
-            ReactDOM: 'react-dom',
-            PT: 'prop-types'
-        }),
+    
+        new webpack.NoEmitOnErrorsPlugin()
         // new OpenBrowser({url: `http://localhost:${9000}`})
     ],
 
     resolve: {
         modules: [
-            'node_modules',
+            path.resolve(__dirname, '../node_modules'),
             dfPath.src,
             dfPath.common,
             dfPath.components,
@@ -65,6 +68,23 @@ config.module.rules.push(
             {
                 loader: 'css-loader',
                 options: {
+                    module: false,
+                    localIdentName: '[local]--[hash:base64:6]'
+                }
+            },
+            {
+                loader: 'sass-loader'
+            }
+        ],
+        include: [dfPath.common, 'node_modules']
+    },
+    {
+        test: /\.scss$/,
+        use: [
+            'style-loader',
+            {
+                loader: 'css-loader',
+                options: {
                     module: true,
                     localIdentName: '[local]--[hash:base64:6]'
                 }
@@ -72,7 +92,10 @@ config.module.rules.push(
             {
                 loader: 'sass-loader'
             }
-        ]
+        ],
+        include: [dfPath.src],
+        exclude: [dfPath.common],
+
     }
 );
 

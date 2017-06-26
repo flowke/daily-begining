@@ -17,6 +17,9 @@ const compiler = webpack(config);
 new WebpackDevServer(compiler, {
     hot: true,
     contentBase: './src/',
-    publicPath: '/assets/'
+    publicPath: '/assets/',
+    stats:{colors: true} ,
+    overlay: true,
+    headers: { "X-Custom-Header": "yes" }
 })
 .listen(port)

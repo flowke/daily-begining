@@ -14,7 +14,12 @@ config.plugins.push(new OpenBrowser({url: `http://localhost:${port}`}));
 
 let compiler = webpack(config);
 
-app.use( webpackDevMiddleware(compiler, {publicPath: '/assets/'}) );
+app.use( webpackDevMiddleware(compiler, {
+    publicPath: '/assets/',
+    stats:{colors: true},
+    overlay: true,
+    headers: { "X-Custom-Header": "yes" }
+}) );
 
 app.use( webpackHotMiddleware(compiler) );
 
