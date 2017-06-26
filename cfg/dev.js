@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {dfPath, dfConfig } = require('./default.js');
 const OpenBrowser = require('open-browser-webpack-plugin');
 
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 
 let config = Object.assign({}, dfConfig, {
 
@@ -19,7 +19,7 @@ let config = Object.assign({}, dfConfig, {
             filename: '../index.html',
             template: './src/index.html'
         }),
-    
+
         new webpack.NoEmitOnErrorsPlugin()
         // new OpenBrowser({url: `http://localhost:${9000}`})
     ],
@@ -53,8 +53,7 @@ config.module.rules.push(
         test: /\.js$/,
         use: ['babel-loader'],
         include:[
-            dfPath.src,
-            dfPath.semantic
+            dfPath.src
         ]
     },
     {

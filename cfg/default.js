@@ -1,4 +1,4 @@
-const BabiliPlugin = require("babili-webpack-plugin");
+// const BabiliPlugin = require("babili-webpack-plugin");
 const path = require('path');
 const webpack = require('webpack');
 let dfPath = {
